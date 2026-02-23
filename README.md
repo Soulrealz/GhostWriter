@@ -1,8 +1,25 @@
-# Agentic Software Factory (Template)
+# GhostWriter: The Agentic Software Factory
 
-> A plug-and-play template for building complex, multi-agent software systems using a **Parent Subgraph Architecture** and **Context Engineering**.
+> A tiered framework for haunting your codebase with autonomous spirits. Move from simple scripts to a self-remembering multi-agent factory using **Parent Subgraph Architecture** and **Context Engineering**.
 
-This repository moves beyond simple "chatbots" and massive system prompts. By treating AI as a systems engineering pipeline, this factory uses deterministic routing, dynamic skill loading, and graph-based memory to safely generate, review, and test complex software.
+**GhostWriter** is a modular TypeScript template built for developers who want to stop "talking" to AI and start architecting it. It provides a structured path to move away from fragile, single-prompt interactions toward robust, multi-agent systems that act as an extension of your engineering team.
+
+## The Haunting Levels
+> GhostWriter is organized into four distinct stages of complexity. Each level introduces a more sophisticated way for "spirits" to interact with your code.
+
+| Level | Name              | Infrastructure              | Purpose |
+|-------|-------------------|----------------------------|---------|
+| 1     | **The Wisp**      | Gemini / Claude SDK + CLI  | A single, flickering light. Connects one agent to your terminal to execute basic, isolated tasks. |
+| 2     | **The Poltergeist** | LangGraph.js + Zod        | Things start moving! Multiple agents "talk" and pass state (nodes) to coordinate on larger features. |
+| 3     | **The Spectre**   | `.skills/` + File Tools    | A ghost that sees through walls. Dynamically loads specialized knowledge from NotebookLM-generated skill files. |
+| 4     | **The Revenant**  | Neo4j + GraphRAG           | A spirit with total recall. Remembers past bugs and architecture, becoming a permanent, self-improving entity in your repo. |
+
+---
+
+## AGENTS.md: The Haunting Site
+In the GhostWriter ecosystem, the AGENTS.md file acts as the Haunting Site. It is the high-level configuration—the "Summoning Scroll"—where the human medium sets the boundaries, personas, and behavioral rules for all spirits in the repo.
+
+When an agent wakes up, it reads the Haunting Site first. This ensures that every "spirit" added to the project adheres to the same manifesto, coding standards, and project-specific constraints without needing to hardcode them into the engine
 
 ---
 
@@ -15,33 +32,42 @@ This repository moves beyond simple "chatbots" and massive system prompts. By tr
 | **The Orchestrator** | **LangGraph** | The core routing engine. Uses a "Parent Subgraph" architecture to separate the *Global State* (project goals) from the *Private State* (agents arguing over code). |
 | **The Memory** | **Neo4j (GraphRAG)** | Long-term memory. Maps relationships between previous bugs, architectural decisions, and code files so the factory learns over time. |
 | **The Overseer** | **LangSmith** | Complete observability. Traces every token, tool call, and agent thought process to debug AI hallucinations easily. |
-| **Execution** | **Local Machine** *(E2B pending)* | Tests and compiles code natively. *(Note: Cloud-isolated E2B sandboxes are planned for future safe-execution upgrades).* |
+| **Execution** | **Local Machine** *(E2B pending)* | Tests and compiles code natively. *(Note: Cloud-isolated E2B sandboxes are planned for future safe-execution upgrades).*   |
 
 ---
 
 ## Core Architecture: The Flow
 
-This template operates on the principle of **Progressive Disclosure**. Agents do not start with the entire codebase in their prompt. Instead, context is loaded dynamically.
+GhostWriter operates on the principle of Progressive Disclosure. Agents do not start with the entire codebase in their prompt; instead, context is loaded dynamically.
 
-1. **Initialization:** The user defines the Global State (e.g., "Build the L1 Vault smart contract").
-2. **Routing:** The LangGraph **Parent Graph** reads the request and routes it to the appropriate **Child Subgraph** (e.g., the `smart_contract_node`).
-3. **Skill Loading:** The child node wakes up, checks its available tools, and dynamically loads only the specific instructions from the `.skills/` directory (e.g., `ccip_messaging_skill.md`) it needs for the task.
-4. **Execution & Consensus:** Internal agents within the subgraph write, review, and locally test the code (Private State).
-5. **Handoff:** The subgraph returns *only* the finalized artifacts (e.g., compiled ABIs and deployment scripts) back to the Parent Graph's Global State.
+1. **Initialization:** The human defines the Global State via the Parent Graph.
+2. **Routing:** LangGraph identifies which **Child Subgraph** (Poltergeist) is best suited for the haunting.
+3. **Skill Loading:** The child node (Spectre) dynamically pulls specialized instructions from the .skills/ directory.
+4. **Execution & Consensus:** Internal agents write and review code within their private state.
+5. **Handoff:** The subgraph returns only validated artifacts to the Global State for the human or the next agent.
 
 ---
 
 ## Proposed Folder Structure
 
 ```text
+├── .ghostwriter/            # The factory core
+│   ├── ectoplasm/           # Transient storage for unverified agent output
+│   ├── blueprints/          # YAML/JSON task routing & subgraph definitions
+│   ├── levels/              # Setup configs for Wisp, Poltergeist, Spectre, Revenant
+│   │   ├── wisps/           # Level 1: Simple scripts
+│   │   ├── poltergeists/    # Level 2: Multi-agent logic
+│   │   ├── spectres/        # Level 3: Skill loaders
+│   │   └── revenant/        # Level 4: Full factory system
 ├── .skills/                 # Generated by NotebookLM (Dynamic agent context)
 │   ├── core_architecture/
 │   └── domain_specific/
 ├── src/
-│   ├── agents/              # Gemini/Claude SDK agent definitions and prompts
-│   ├── graphs/              # LangGraph.js orchestration logic
-│   │   ├── parentGraph.ts   # The main routing graph
-│   │   └── subgraphs/       # Domain-specific isolated graphs (e.g., frontend, contracts)
+│   ├── entities/            # SDK agent definitionss
+│   ├── rituals/             # LangGraph.js orchestration logic (The Graphs)
+│   │   ├── parentRitual.ts  # The main routing graph
+│   │   ├── subgraphs/       # Domain-specific isolated graphs (e.g., frontend, contracts)
+│   │   └── observers/       # Logic for cost/safety monitoring & "Guardians"
 │   ├── memory/              # Neo4j GraphRAG connection and query logic
 │   ├── schema/              # Zod schemas defining Global and Private States
 │   └── tools/               # Custom tools (e.g., file system readers, API fetchers)
@@ -49,6 +75,7 @@ This template operates on the principle of **Progressive Disclosure**. Agents do
 ├── .env.example             # API keys template
 ├── package.json             # TypeScript/Node.js dependencies
 ├── tsconfig.json            # Strict TypeScript configuration
+├── AGENTS.md                # The Haunting Site (High-level rules)
 └── README.md
 ```
 

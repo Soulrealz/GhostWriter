@@ -79,6 +79,37 @@ GhostWriter operates on the principle of Progressive Disclosure. Agents do not s
 └── README.md
 ```
 
+## Repository Status
+
+The folder structure above is the **target**, not the current tree. What actually exists today:
+
+| Path | State |
+|---|---|
+| `src/index.ts` | Phase 1 smoke call (Vercel AI SDK + Gemini). The Wisp agent loop is next. |
+| `src/safety/paths.ts` | Done — root-jail path resolution (traversal, symlinks, absolute escapes). |
+| `src/safety/allowlist.ts` | Done — argv-prefix command allowlist, shell metacharacters refused. |
+| `src/safety/policy.ts` | Done — default command policy + secret-path detection. |
+| `src/safety/redact.ts` | Done — secret scrubbing by env value and by key shape. |
+| `src/safety/budget.ts` | Done — step/token/cost/wall-clock ceilings (the Guardian's ledger). |
+| `src/context/toolResult.ts` | Done — tool-result truncation, safe JSON preview, field projection. |
+| `src/observability/trace.ts` | Done — run tracer with JSONL and in-memory sinks. |
+| `src/observability/cost.ts` | Done — model pricing table + cost estimation (verified rates only). |
+| `src/observability/report.ts` | Done — parse traces back into run summaries and timelines. |
+| `src/testing/workspace.ts` | Done — disposable fixture copies for reproducible agent runs. |
+| `fixtures/sample-repo/` | Done — zero-dependency target repo for the Phase 1 acceptance run. |
+| `scripts/trace-report.ts` | Done — `pnpm trace:report` CLI over the trace logs. |
+| `evals/harness.ts` | Done — eval runner + deterministic checks. Case sets land in Phase 2. |
+| `AGENTS.md` | Done — the Haunting Site: manifesto, boundaries, personas, behavioural rules. |
+| `CLAUDE.md` | Done — commands, conventions, gotchas for assistants working on this repo. |
+| `docker-compose.yml` | Neo4j for Phase 4. Written, not yet started against a live container. |
+| `.github/workflows/ci.yml` | Done — typecheck, test, and build on push/PR. No secrets needed. |
+| `rituals/`, `.skills/`, `memory/`, `blueprints/` | Not built. Phases 2-4. |
+
+Commands: `pnpm test` · `pnpm typecheck` · `pnpm build` · `pnpm start` · `pnpm trace:report`. Only
+`GOOGLE_GENERATIVE_AI_API_KEY` is required to run anything today (see `.env.example`).
+
+---
+
 ## Known Limitations
 
 Because this is a highly opinionated, systems-level architecture, please be aware of the following constraints before building:

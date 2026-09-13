@@ -1,0 +1,43 @@
+# Phase 4 "The Revenant" — persistent GraphRAG memory.
+# Not needed before Phase 4; nothing else in the repo talks to it yet.
+#
+#   docker compose up -d neo4j     # browser at http://localhost:7474
+#   docker compose down            # keeps the volume
+#   docker compose down -v         # wipes the graph
+#
+# Credentials come from .env (see .env.example); the defaults below are for local
+# development only and must never be reused anywhere reachable.
+
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: ghostwriter-neo4j
+    restart: unless-stopped
+    ports:
+      - '7474:7474' # HTTP browser
+      - '7687:7687' # Bolt driver
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-ghostwriter}
+      # APOC ships the graph utilities most GraphRAG examples assume.
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_apoc_export_file_enabled: 'true'
+      NEO4J_apoc_import_file_enabled: 'true'
+      # Modest heap: this is a laptop-side memory store, not a production cluster.
+      NEO4J_server_memory_heap_initial__size: 512m
+      NEO4J_server_memory_heap_max__size: 1G
+      NEO4J_server_memory_pagecache_size: 512m
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+    healthcheck:
+      # Bolt readiness, not just container start — the driver connects well after the port opens.
+      test:
+        ['CMD-SHELL', 'cypher-shell -u $${NEO4J_USER:-neo4j} -p $${NEO4J_PASSWORD:-ghostwriter} "RETURN 1" || exit 1']
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
+
+volumes:
+  neo4j-data:
+  neo4j-logs:

@@ -1,0 +1,2 @@
+Transient agent output: run traces (*.jsonl) and unverified artifacts.
+Contents are gitignored; this file keeps the directory in the repo.

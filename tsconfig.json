@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "preserve",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "noUncheckedIndexedAccess": true
+  },
+  "include": [
+    "src",
+    "evals",
+    "scripts",
+    "vitest.config.ts"
+  ]
+}

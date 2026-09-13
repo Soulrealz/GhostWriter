@@ -1,0 +1,30 @@
+# secrets
+.env
+.env.local
+*.pem
+id_rsa
+
+# build output
+dist/
+*.tsbuildinfo
+
+# deps
+node_modules/
+
+# agent scratch space (keep the dir, drop its contents)
+.ghostwriter/ectoplasm/*
+!.ghostwriter/ectoplasm/.gitkeep
+
+# tooling
+coverage/
+.vitest/
+.DS_Store
+
+# personal, uncommitted Claude Code config
+.claude/settings.local.json
+CLAUDE.local.md
+
+# personal study material — local only, not part of the template
+LEARNING_PLAN.md
+STUDY_PLAN.md
+ai-skills.md
